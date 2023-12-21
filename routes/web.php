@@ -33,6 +33,6 @@ Route::put('todos/update', [TodoController::class, 'update'])->name('todos.updat
 Route::delete('todos/remove', [TodoController::class, 'remove'])->name('todos.remove');
 Route::put('todos/{id}/toggle-status', [TodoController::class, 'toggleStatus'])->name('todos.toggleStatus');
 Route::get('/profile', [UserController::class, 'showProfile'])->name('user.profile');
-Route::post('profile/update-password', [UserController::class, 'updatePassword'])->name('todos.profile.updatePassword');
+Route::post('/user/updatePassword', [UserController::class, 'updatePassword'])->name('user.updatePassword');
 Route::get('/user/settings', [UserController::class, 'settings'])->name('user.settings');
 

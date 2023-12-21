@@ -90,11 +90,45 @@ class UserController extends Controller
     } 
 
     public function showProfile()
-    {
-        $todos = Todo::all();
+{
+    $user = auth()->user();
 
-        return view('user.profile', ['todos' => $todos]);
+    $todos = $user->todos;
+
+    return view('user.profile', ['todos' => $todos]);
+}
+
+    public function index()
+{
+    $user = auth()->user();
+    $todos = $user->todos; 
+
+    return view('your.view.name', compact('todos'));
+}
+
+public function changePassword()
+{
+   return view('change-password');
+}
+
+public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = auth()->user();
+
+        // Check if the current password matches the one in the database
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+
+        $user->update(['password' => Hash::make($request->input('new_password'))]);
+
+        return redirect()->back()->with('success', 'Password changed successfully.');
     }
 
-   
+
 }
